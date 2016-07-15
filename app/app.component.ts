@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ViewContainerRef} from '@angular/core';
 import { ROUTER_DIRECTIVES }  from '@angular/router';
 
 @Component({
@@ -9,4 +9,11 @@ import { ROUTER_DIRECTIVES }  from '@angular/router';
 export class AppComponent {
     title = "Coins";
     tagline = "Get to know where yout money is!";
+
+    viewContainerRef: ViewContainerRef;
+
+    constructor(viewContainerRef:ViewContainerRef) {
+        // You need this small hack in order to catch application root view container ref
+        this.viewContainerRef = viewContainerRef;
+    }
 }
