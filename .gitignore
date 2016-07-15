@@ -1,4 +1,5 @@
 app/*.js
+app/*.map
 node_modules
 typings
 *.iml
