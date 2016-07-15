@@ -43,6 +43,7 @@ export class OrderEntry {
         return json;
     }
 
+    id: number;
     type: EntryType;
     title: string;
     description: string;
