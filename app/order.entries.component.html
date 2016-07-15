@@ -1,0 +1,21 @@
+<table class="table table-bordered table-condensed">
+    <thead>
+    <tr>
+        <th>Titel</th>
+        <th>Beschreibung</th>
+        <th>Erstellt</th>
+        <th>Wiederholung</th>
+        <th>Wert</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let orderEntry of orderEntries">
+        <td>{{orderEntry.title}}</td>
+        <td>{{orderEntry.description}}</td>
+        <td>{{orderEntry.created | moment:'DD-MM-YYYY'}}</td>
+        <td>{{orderEntry.repeat | orderEntryRepeat}}</td>
+        <td [ngClass]="{'green': orderEntry.ranges[orderEntry.ranges.length-1].value >= 0, 'red': orderEntry.ranges[orderEntry.ranges.length-1].value < 0}"
+            style="text-align: right">{{orderEntry.ranges[orderEntry.ranges.length-1].value | number:'1.2-2'}} €</td>
+    </tr>
+    </tbody>
+</table>
