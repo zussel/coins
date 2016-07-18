@@ -1,5 +1,3 @@
-<button type="button" class="btn btn-primary" (click)="smModal.show()">Small modal</button>
-
 <table class="table table-bordered table-condensed">
     <thead>
     <tr>
@@ -12,7 +10,7 @@
     </thead>
     <tbody>
     <tr *ngFor="let orderEntry of orderEntries">
-        <td>{{orderEntry.title}}</td>
+        <td><button type="button" class="btn btn-link" (click)="showChildModal(orderEntry)">{{orderEntry.title}}</button></td>
         <td>{{orderEntry.description}}</td>
         <td>{{orderEntry.created | moment:'DD-MM-YYYY'}}</td>
         <td>{{orderEntry.repeat | orderEntryRepeat}}</td>
@@ -22,9 +20,8 @@
     </tbody>
 </table>
 
-<button type="button" class="btn btn-primary" (click)="showChildModal()">Open child modal</button>
 <div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog modal-md">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" aria-label="Close" (click)="hideChildModal()">
