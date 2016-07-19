@@ -6,6 +6,7 @@ import {OnInit, Component, ViewChild} from "@angular/core";
 import {OrderEntry} from "./order.entry";
 import {ModalDirective, MODAL_DIRECTIVES, BS_VIEW_PROVIDERS} from "ng2-bootstrap/ng2-bootstrap";
 import {CORE_DIRECTIVES} from "@angular/common";
+import {OrderEntryDetailModalComponent} from "./order.entry.detail.modal.component";
 
 @Component({
     selector: 'coins-order-entries',
@@ -19,16 +20,19 @@ import {CORE_DIRECTIVES} from "@angular/common";
         OrderEntryRepeatPipe,
         MomentPipe
     ],
-    directives: [MODAL_DIRECTIVES, CORE_DIRECTIVES],
+    directives: [MODAL_DIRECTIVES, CORE_DIRECTIVES, OrderEntryDetailModalComponent],
     viewProviders:[BS_VIEW_PROVIDERS]
 })
 export class OrderEntriesComponent implements OnInit {
     constructor(private orderEntryService: OrderEntryService,
                 private orderEntryEstimateService: OrderEntryEstimateService) {}
 
-    @ViewChild('childModal') public childModal: ModalDirective;
+    @ViewChild('lgModal') public childModal: ModalDirective;
 
-    public showChildModal():void {
+    public current: OrderEntry = new OrderEntry();
+
+    public showChildModal(orderEntry: OrderEntry):void {
+        this.current = orderEntry;
         this.childModal.show();
     }
 
