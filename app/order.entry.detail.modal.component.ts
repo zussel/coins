@@ -35,6 +35,11 @@ export class OrderEntryDetailModalComponent {
         this.lgModal.show();
     }
 
+    public save() {
+        console.log('saved order entry: ', this.orderEntry);
+        this.lgModal.hide();
+    }
+
     public addRange() {
         let successor = _.first(this.orderEntry.ranges);
 
