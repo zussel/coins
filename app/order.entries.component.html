@@ -10,7 +10,9 @@
     </thead>
     <tbody>
     <tr *ngFor="let orderEntry of orderEntries">
-        <td><button type="button" class="btn btn-link" (click)="showChildModal(orderEntry)">{{orderEntry.title}}</button></td>
+        <td>
+            <button type="button" class="btn btn-link" (click)="show(orderEntry, detail)">{{orderEntry.title}}</button>
+        </td>
         <td>{{orderEntry.description}}</td>
         <td>{{orderEntry.created | moment:'DD-MM-YYYY'}}</td>
         <td>{{orderEntry.repeat | orderEntryRepeat}}</td>
@@ -19,3 +21,4 @@
     </tr>
     </tbody>
 </table>
+<order-entry-detail-modal #detail="orderEntryDetail" [orderEntry]="current"></order-entry-detail-modal>

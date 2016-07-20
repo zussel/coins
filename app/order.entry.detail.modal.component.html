@@ -1,54 +1,83 @@
 <div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-md">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" aria-label="Close" (click)="lgModal.hide()">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title">{{current.title}}</h4>
+        <form *ngIf="orderEntry" class="form-horizontal" role="form" (ngSubmit)="save()" #orderEntryForm="ngForm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" aria-label="Close" (click)="lgModal.hide()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 *ngIf="orderEntry" class="modal-title">{{orderEntry.title}}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="title">Titel</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" required
+                                   [(ngModel)]="orderEntry.title"
+                                   id="title" name="title"  #title="ngModel" >
+                        </div>
+                        <div class="col-sm-offset-3 col-sm-9">
+                            <div [hidden]="title.valid || title.pristine" class="alert alert-danger">
+                                Titel ist notwendig
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="description">Beschreibung</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control"
+                                   [(ngModel)]="orderEntry.description"
+                                   name="description" id="description">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="repeat">Hero Power</label>
+                        <div class="col-sm-9">
+                            <select class="form-control"
+                                    [(ngModel)]="orderEntry.repeat"
+                                    id="repeat" name="repeat">
+                                <option *ngFor="let r of repeats | enums" [value]="r.key">{{r.value}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th width="33%">Von</th>
+                                <th width="33%">Bis</th>
+                                <th width="34%">Wert</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngIf="addingRange">
+                                <td>
+                                    <datepicker-popup [(date)]="newRange.from" [placeholder]="Von"></datepicker-popup>
+                                </td>
+                                <td>
+                                    <datepicker-popup [(date)]="newRange.to" [placeholder]="Bis"></datepicker-popup>
+                                </td>
+                                <td><input type="number" class="form-control" [(ngModel)]="newRange.value" [ngModelOptions]="{standalone: true}"></td>
+                            </tr>
+                            <tr *ngFor="let range of orderEntry.ranges">
+                                <td>{{range.from | moment:'DD-MM-YYYY'}}</td>
+                                <td>{{range.to | moment:'DD-MM-YYYY'}}</td>
+                                <td style="text-align: right" [ngClass]="{'green': range.value >= 0, 'red': range.value < 0}">{{range.value | number:'1.2-2'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button *ngIf="!addingRange" type="button" class="btn btn-warning pull-right" (click)="addRange()"><i class="glyphicon glyphicon-plus"></i></button>
+                    <button *ngIf="addingRange" type="button" class="btn btn-danger pull-right" (click)="cancelRange()"><i class="glyphicon glyphicon-trash"></i></button>
+                    <button *ngIf="addingRange" [disabled]="!isValidRange(newRange)" type="button" class="btn btn-success pull-right" (click)="saveRange()"><i class="glyphicon glyphicon-ok"></i></button>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" (click)="lgModal.hide()">Schließen</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="!orderEntryForm.form.valid || addingRange" (click)="save()">Speichern</button>
+                </div>
             </div>
-            <div class="modal-body">
-                <!--<div class="container">-->
-                    <!--<div  [hidden]="submitted">-->
-                        <!--<form *ngIf="active" (ngSubmit)="onSubmit()" #heroForm="ngForm">-->
-                            <!--<div class="form-group">-->
-                                <!--<label for="name">Titel</label>-->
-                                <!--<input type="text" class="form-control" required-->
-                                       <!--[(ngModel)]="model.name"-->
-                                       <!--id="name"-->
-                                       <!--name="name"  #name="ngModel" >-->
-                                <!--<div [hidden]="name.valid || name.pristine" class="alert alert-danger">-->
-                                    <!--Name is required-->
-                                <!--</div>-->
-                            <!--</div>-->
-
-                            <!--<div class="form-group">-->
-                                <!--<label for="alterEgo">Alter Ego</label>-->
-                                <!--<input type="text" class="form-control"-->
-                                       <!--[(ngModel)]="model.alterEgo"-->
-                                       <!--name="alterEgo" >-->
-                            <!--</div>-->
-
-                            <!--<div class="form-group">-->
-                                <!--<label for="power">Hero Power</label>-->
-                                <!--<select class="form-control" required-->
-                                        <!--[(ngModel)]="model.power"-->
-                                        <!--name="power" #power="ngModel" >-->
-                                    <!--<option *ngFor="let p of powers" [value]="p">{{p}}</option>-->
-                                <!--</select>-->
-                                <!--<div [hidden]="power.valid || power.pristine" class="alert alert-danger">-->
-                                    <!--Power is required-->
-                                <!--</div>-->
-                            <!--</div>-->
-
-                            <!--<button type="submit" class="btn btn-default" [disabled]="!heroForm.form.valid">Submit</button>-->
-
-                            <!--<button type="button" class="btn btn-default" (click)="newHero()">New Hero</button>-->
-                        <!--</form>-->
-                    <!--</div>-->
-                <!--</div>-->
-                hallo
-            </div>
-        </div>
+        </form>
     </div>
 </div>

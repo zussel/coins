@@ -8,7 +8,7 @@ import { ROUTER_DIRECTIVES }  from '@angular/router';
 })
 export class AppComponent {
     title = "Coins";
-    tagline = "Get to know where yout money is!";
+    tagline = "Get to know where your money is!";
 
     viewContainerRef: ViewContainerRef;
 

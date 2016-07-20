@@ -1,0 +1,18 @@
+.datepicker-popup {
+    position: absolute;
+    background-color: #fff;
+    border-radius: 3px;
+    border: 1px solid #ddd;
+    height: 245px;
+}
+
+.full button span {
+    background-color: limegreen;
+    border-radius: 32px;
+    color: black;
+}
+.partially button span {
+    background-color: orange;
+    border-radius: 32px;
+    color: black;
+}

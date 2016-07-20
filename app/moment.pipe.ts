@@ -6,10 +6,14 @@ import {isString} from "@angular/platform-browser/src/facade/lang";
 export class MomentPipe implements PipeTransform {
 
     transform(value:moment.Moment, ...args):string {
-        if (isString(value)) {
+        if (!value) {
+            return '';
+        } else if (isString(value)) {
             return moment(value).format('DD.MM.YYYY');
-        } else {
+        } else if (value.isValid()) {
             return value.format('DD.MM.YYYY');
+        } else {
+            return '';
         }
     }
 }
