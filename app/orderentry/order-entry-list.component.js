@@ -12,6 +12,7 @@ var order_entry_service_1 = require("./order-entry.service");
 var order_entry_repeat_pipe_1 = require("./order-entry-repeat.pipe");
 var moment_pipe_1 = require("../shared/pipes/moment.pipe");
 var core_1 = require("@angular/core");
+var order_entry_1 = require("./order-entry");
 var order_entry_detail_modal_component_1 = require("./order-entry-detail-modal.component");
 var OrderEntriesComponent = (function () {
     function OrderEntriesComponent(orderEntryService) {
@@ -24,6 +25,10 @@ var OrderEntriesComponent = (function () {
     OrderEntriesComponent.prototype.getOrderEntries = function () {
         var _this = this;
         return this.orderEntryService.getOrderEntries().then(function (orderEntries) { return _this.orderEntries = orderEntries; });
+    };
+    OrderEntriesComponent.prototype.addOrderEntry = function (detailView) {
+        this.current = new order_entry_1.OrderEntry();
+        detailView.show();
     };
     OrderEntriesComponent.prototype.ngOnInit = function () {
         this.getOrderEntries();

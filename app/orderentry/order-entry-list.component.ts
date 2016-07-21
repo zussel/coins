@@ -37,6 +37,11 @@ export class OrderEntriesComponent implements OnInit {
         return this.orderEntryService.getOrderEntries().then(orderEntries => this.orderEntries = orderEntries);
     }
 
+    addOrderEntry(detailView: OrderEntryDetailModalComponent) {
+        this.current = new OrderEntry();
+        detailView.show();
+    }
+
     ngOnInit() {
         this.getOrderEntries();
     }
