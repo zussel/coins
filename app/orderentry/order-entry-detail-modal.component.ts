@@ -1,11 +1,11 @@
 import {BS_VIEW_PROVIDERS, MODAL_DIRECTIVES, ModalDirective, DATEPICKER_DIRECTIVES} from "ng2-bootstrap/ng2-bootstrap";
 import {CORE_DIRECTIVES} from "@angular/common";
 import {Component, ViewChild, Input} from "@angular/core";
-import {OrderEntry, EntryRepeat, OrderEntryRange} from "./order.entry";
-import {EnumPipe} from "./EnumPipe";
-import {MomentPipe} from "./moment.pipe";
-import {OrderEntryRepeatPipe} from "./order.entry.repeat.pipe";
-import {DatepickerPopupComponent} from "./datepicker.popup.component";
+import {OrderEntry, EntryRepeat, OrderEntryRange} from "./order-entry";
+import {EnumPipe} from "../shared/pipes/enum.pipe";
+import {MomentPipe} from "../shared/pipes/moment.pipe";
+import {OrderEntryRepeatPipe} from "./order-entry-repeat.pipe";
+import {DatepickerPopupComponent} from "../shared/components/datepicker-popup.component";
 import * as _ from 'lodash';
 import moment = require("moment/moment");
 
@@ -18,7 +18,7 @@ import moment = require("moment/moment");
         DatepickerPopupComponent
     ],
     viewProviders:[BS_VIEW_PROVIDERS],
-    templateUrl: 'app/order.entry.detail.modal.component.html',
+    templateUrl: 'app/orderentry/order-entry-detail-modal.component.html',
     exportAs: 'orderEntryDetail',
     pipes: [EnumPipe, MomentPipe, OrderEntryRepeatPipe]
 })

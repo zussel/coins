@@ -1,15 +1,15 @@
-import {OrderEntryService} from "./order.entry.service";
-import {OrderEntryEstimateService} from "./order.entry.estimate.service";
-import {OrderEntryRepeatPipe} from "./order.entry.repeat.pipe";
-import {MomentPipe} from "./moment.pipe";
+import {OrderEntryService} from "./order-entry.service";
+import {OrderEntryEstimateService} from "./order-entry-estimate.service";
+import {OrderEntryRepeatPipe} from "./order-entry-repeat.pipe";
+import {MomentPipe} from "../shared/pipes/moment.pipe";
 import {Component, OnInit} from "@angular/core";
-import {OrderEntry} from "./order.entry";
-import {OrderEntryDetailModalComponent} from "./order.entry.detail.modal.component";
+import {OrderEntry} from "./order-entry";
+import {OrderEntryDetailModalComponent} from "./order-entry-detail-modal.component";
 
 @Component({
     selector: 'coins-order-entries',
-    templateUrl: 'app/order.entries.component.html',
-    styleUrls: ['app/order.entries.component.css'],
+    templateUrl: 'app/orderentry/order-entry-list.component.html',
+    styleUrls: ['app/orderentry/order-entry-list.component.css'],
     providers: [
         OrderEntryService
     ],

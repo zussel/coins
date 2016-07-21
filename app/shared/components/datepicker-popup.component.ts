@@ -6,8 +6,8 @@ import {EventEmitter} from "@angular/forms/src/facade/async";
 @Component({
     selector: 'datepicker-popup',
     directives: [DATEPICKER_DIRECTIVES],
-    templateUrl: 'app/datepicker.popup.component.html',
-    styleUrls: ['app/datepicker.popup.component.css']
+    templateUrl: 'app/shared/components/datepicker-popup.component.html',
+    styleUrls: ['app/shared/components/datepicker-popup.component.css']
 })
 export class DatepickerPopupComponent implements OnInit {
     @Input() placeholder: string;

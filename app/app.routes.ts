@@ -1,7 +1,7 @@
 import { provideRouter, RouterConfig }  from '@angular/router';
-import {OrderEntriesComponent} from "./order.entries.component";
-import {DashboardComponent} from "./dashboard.component";
-import {ForecastComponent} from "./forecast.component";
+import {OrderEntriesComponent} from "./orderentry/order-entry-list.component";
+import {DashboardComponent} from "./dashboard/dashboard.component";
+import {ForecastComponent} from "./forecast/forecast.component";
 
 const routes: RouterConfig = [
     {

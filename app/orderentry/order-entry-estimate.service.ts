@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import * as _ from 'lodash';
 
-import {OrderEntry, OrderEntryRange, EntryRepeat} from "./order.entry";
+import {OrderEntry, OrderEntryRange, EntryRepeat} from "./order-entry";
 import moment = require("moment/moment");
 
 @Injectable()

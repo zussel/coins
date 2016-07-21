@@ -1,4 +1,4 @@
-import { OrderEntry, OrderEntryRange, EntryType, EntryRepeat } from './order.entry'
+import { OrderEntry, OrderEntryRange, EntryType, EntryRepeat } from './orderentry/order-entry'
 
 import moment = require("moment/moment");
 

@@ -2,7 +2,7 @@ import {Component} from "@angular/core";
 
 @Component({
     selector: 'coins-dashboard',
-    templateUrl: 'app/dashboard.component.html'
+    templateUrl: 'app/dashboard/dashboard.component.html'
 })
 export class DashboardComponent {
 

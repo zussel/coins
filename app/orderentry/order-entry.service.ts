@@ -3,7 +3,7 @@ import {Headers, Http, Response} from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
-import {OrderEntry, EntryRepeat} from "./order.entry";
+import {OrderEntry, EntryRepeat} from "./order-entry";
 import * as _ from 'lodash';
 
 @Injectable()

@@ -1,15 +1,15 @@
 import {Component, OnInit} from "@angular/core";
 import {CHART_DIRECTIVES} from "ng2-charts";
 import {NgClass, CORE_DIRECTIVES, FORM_DIRECTIVES} from "@angular/common";
-import {OrderEntryEstimateService} from "./order.entry.estimate.service";
-import {OrderEntryService} from "./order.entry.service";
-import {OrderEntry} from "./order.entry";
+import {OrderEntryEstimateService} from "../orderentry/order-entry-estimate.service";
+import {OrderEntryService} from "../orderentry/order-entry.service";
+import {OrderEntry} from "../orderentry/order-entry";
 import * as _ from 'lodash';
 
 @Component({
     selector: 'forecast',
-    templateUrl: 'app/forecast.component.html',
-    styleUrls: ['app/forecast.component.css'],
+    templateUrl: 'app/forecast/forecast.component.html',
+    styleUrls: ['app/forecast/forecast.component.css'],
     providers: [OrderEntryService, OrderEntryEstimateService],
     directives: [CHART_DIRECTIVES, NgClass, CORE_DIRECTIVES, FORM_DIRECTIVES]
 })
