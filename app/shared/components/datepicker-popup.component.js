@@ -17,8 +17,8 @@ var DatepickerPopupComponent = (function () {
         this.dateChange = new async_1.EventEmitter();
         this.showPopup = false;
     }
-    DatepickerPopupComponent.prototype.show = function () {
-        this.showPopup = true;
+    DatepickerPopupComponent.prototype.toggle = function () {
+        this.showPopup = !this.showPopup;
     };
     DatepickerPopupComponent.prototype.hide = function () {
         this.date = moment(this.value);

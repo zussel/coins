@@ -19,8 +19,6 @@ var EnumPipe = (function () {
         _.each(enums, function (e) {
             if (lang_1.isNumber(e)) {
                 keys.push({ key: e, value: enums[e] });
-                // Uncomment if you want log
-                console.log("enum member: ", enums[e]);
             }
         });
         return keys;

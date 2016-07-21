@@ -30,9 +30,11 @@ export class OrderEntryDetailModalComponent {
     public addingRange = false;
     public showDatepicker = false;
 
-    public newRange: OrderEntryRange = new OrderEntryRange(0);
-
     public show():void {
+        if (_.isEmpty(this.orderEntry.ranges)) {
+            this.orderEntry.ranges.push(new OrderEntryRange(0));
+            this.addingRange = true;
+        }
         this.lgModal.show();
     }
 
@@ -44,22 +46,25 @@ export class OrderEntryDetailModalComponent {
     public addRange() {
         let successor = _.first(this.orderEntry.ranges);
 
-        if (successor.to && successor.to.isValid()) {
-            this.newRange.from = successor.to.clone().add(1, 'day');
+        if (!successor) {
+            this.orderEntry.ranges.push(new OrderEntryRange(0));
+        } else if (successor.to && successor.to.isValid()) {
+            this.orderEntry.ranges.unshift(new OrderEntryRange(successor.value, successor.to.clone().add(1, 'day')));
+        } else {
+            this.orderEntry.ranges.unshift(new OrderEntryRange(successor.value));
         }
-        this.newRange.value = successor.value;
         this.addingRange = true;
     }
 
     public cancelRange() {
-        this.resetNewRange();
+        this.orderEntry.ranges.splice(0, 1);
         this.addingRange = false;
     }
 
     public saveRange() {
-        _.first(this.orderEntry.ranges).to = this.newRange.from.clone().subtract(1, 'day');
-        this.orderEntry.ranges.unshift(this.newRange);
-        this.newRange = new OrderEntryRange(0);
+        if (this.orderEntry.ranges.length > 1) {
+            this.orderEntry.ranges[0].to = _.first(this.orderEntry.ranges).from.clone().subtract(1, 'day');
+        }
         this.addingRange = false;
     }
 
@@ -72,6 +77,8 @@ export class OrderEntryDetailModalComponent {
 
         if (!range.from) {
             return false;
+        } else if (!successor) {
+            return true;
         } else if ((!successor.to || !successor.to.isValid()) && range.from.isSameOrBefore(successor.from)) {
             return false;
         } else if (successor.to && range.from.isBefore(successor.to)) {
@@ -80,11 +87,5 @@ export class OrderEntryDetailModalComponent {
             return false;
         }
         return true;
-    }
-
-    private resetNewRange() {
-        this.newRange.to = null;
-        this.newRange.from = moment();
-        this.newRange.value = 0;
     }
 }

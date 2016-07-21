@@ -38,48 +38,78 @@
                         <div class="col-sm-9">
                             <select class="form-control" required
                                     [(ngModel)]="orderEntry.repeat"
-                                    id="repeat" name="repeat">
+                                    id="repeat" name="repeat"
+                                    #repeat="ngModel"
+                            >
                                 <option *ngFor="let r of repeats | enums" [value]="r.key">{{r.key | orderEntryRepeat}}</option>
                             </select>
                         </div>
                         <div class="col-sm-offset-3 col-sm-9">
-                            <div [hidden]="title.valid || title.pristine" class="alert alert-danger">
+                            <div [hidden]="repeat.valid || repeat.pristine" class="alert alert-danger">
                                 Wiederholung ist notwendig
                             </div>
                         </div>
                     </div>
 
-                    <h4 class="underline text-primary">Zahlungszeiträume</h4>
-
-                    <table class="table table-condensed">
-                        <thead>
+                    <div *ngIf="orderEntry && orderEntry.repeat && orderEntry.repeat != repeats.Once">
+                        <h4 class="underline text-primary">Zahlungszeiträume</h4>
+                        <table class="table table-condensed">
+                            <thead>
                             <tr>
                                 <th width="33%">Von</th>
                                 <th width="33%">Bis</th>
                                 <th width="34%">Wert</th>
                             </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngIf="addingRange">
-                                <td>
-                                    <datepicker-popup [(date)]="newRange.from" [placeholder]="Von"></datepicker-popup>
-                                </td>
-                                <td>
-                                    <datepicker-popup [(date)]="newRange.to" [placeholder]="Bis"></datepicker-popup>
-                                </td>
-                                <td><input type="number" class="form-control" [(ngModel)]="newRange.value" [ngModelOptions]="{standalone: true}"></td>
-                            </tr>
+                            </thead>
+                            <tbody>
+                            <!--<tr *ngIf="addingRange">-->
+                                <!--<td>-->
+                                    <!--<datepicker-popup [(date)]="newRange.from" [placeholder]="Von"></datepicker-popup>-->
+                                <!--</td>-->
+                                <!--<td>-->
+                                    <!--<datepicker-popup [(date)]="newRange.to" [placeholder]="Bis"></datepicker-popup>-->
+                                <!--</td>-->
+                                <!--<td><input type="number" class="form-control" [(ngModel)]="newRange.value" [ngModelOptions]="{standalone: true}"></td>-->
+                            <!--</tr>-->
                             <tr *ngFor="let range of orderEntry.ranges">
-                                <td>{{range.from | moment:'DD-MM-YYYY'}}</td>
-                                <td>{{range.to | moment:'DD-MM-YYYY'}}</td>
-                                <td style="text-align: right" [ngClass]="{'green': range.value >= 0, 'red': range.value < 0}">{{range.value | number:'1.2-2'}}</td>
+                                <td *ngIf="first && addingRange">a</td>
+                                <td *ngIf="first && addingRange">b</td>
+                                <td *ngIf="first && addingRange">c</td>
+                                <td *ngIf="!first || !addingRange">{{range.from | moment:'DD.MM.YYYY'}}</td>
+                                <td *ngIf="!first || !addingRange">{{range.to | moment:'DD.MM.YYYY'}}</td>
+                                <td *ngIf="!first || !addingRange" style="text-align: right" [ngClass]="{'green': range.value >= 0, 'red': range.value < 0}">{{range.value | number:'1.2-2'}}</td>
                             </tr>
-                        </tbody>
-                    </table>
-                    <button *ngIf="!addingRange" type="button" class="btn-round btn btn-danger pull-right" (click)="addRange()"><i class="glyphicon glyphicon-plus"></i></button>
-                    <button *ngIf="addingRange" type="button" class="btn-round btn btn-info pull-right" (click)="cancelRange()"><i class="glyphicon glyphicon-trash"></i></button>
-                    <button *ngIf="addingRange" [disabled]="!isValidRange(newRange)" type="button" class="btn-round btn btn-success pull-right" (click)="saveRange()"><i class="glyphicon glyphicon-ok"></i></button>
-                    <div class="clearfix"></div>
+                            </tbody>
+                        </table>
+                        <button *ngIf="!addingRange" type="button" class="btn-round btn btn-danger pull-right" (click)="addRange()"><i class="glyphicon glyphicon-plus"></i></button>
+                        <button *ngIf="addingRange" type="button" class="btn-round btn btn-info pull-right" (click)="cancelRange()"><i class="glyphicon glyphicon-trash"></i></button>
+                        <!--<button *ngIf="addingRange" [disabled]="!isValidRange(newRange)" type="button" class="btn-round btn btn-success pull-right" (click)="saveRange()"><i class="glyphicon glyphicon-ok"></i></button>-->
+                        <div class="clearfix"></div>
+                    </div>
+                    <div *ngIf="orderEntry && orderEntry.repeat && orderEntry.repeat == repeats.Once">
+                        <h4 class="underline text-primary">Zahlungszeitpunkt</h4>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="date">Datum</label>
+                            <div class="col-sm-9">
+                                <datepicker-popup id="date" [(date)]="orderEntry.ranges[0].from" [placeholder]="Datum" required></datepicker-popup>
+                            </div>
+                        </div>
+                        <!--<div class="col-sm-offset-3 col-sm-9">-->
+                            <!--<div [hidden]="date.valid || date.pristine" class="alert alert-danger">-->
+                                <!--Datum ist notwendig-->
+                            <!--</div>-->
+                        <!--</div>                        -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="value">Wert</label>
+                            <div class="col-sm-9">
+                                <input type="number" class="form-control"
+                                       [(ngModel)]="orderEntry.ranges[0].value"
+                                       name="value" id="value">
+                            </div>
+                        </div>
+
+                    </div>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" (click)="lgModal.hide()">Abbrechen</button>

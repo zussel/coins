@@ -17,15 +17,17 @@ var moment_pipe_1 = require("../shared/pipes/moment.pipe");
 var order_entry_repeat_pipe_1 = require("./order-entry-repeat.pipe");
 var datepicker_popup_component_1 = require("../shared/components/datepicker-popup.component");
 var _ = require('lodash');
-var moment = require("moment/moment");
 var OrderEntryDetailModalComponent = (function () {
     function OrderEntryDetailModalComponent() {
         this.repeats = order_entry_1.EntryRepeat;
         this.addingRange = false;
         this.showDatepicker = false;
-        this.newRange = new order_entry_1.OrderEntryRange(0);
     }
     OrderEntryDetailModalComponent.prototype.show = function () {
+        if (_.isEmpty(this.orderEntry.ranges)) {
+            this.orderEntry.ranges.push(new order_entry_1.OrderEntryRange(0));
+            this.addingRange = true;
+        }
         this.lgModal.show();
     };
     OrderEntryDetailModalComponent.prototype.save = function () {
@@ -34,20 +36,25 @@ var OrderEntryDetailModalComponent = (function () {
     };
     OrderEntryDetailModalComponent.prototype.addRange = function () {
         var successor = _.first(this.orderEntry.ranges);
-        if (successor.to && successor.to.isValid()) {
-            this.newRange.from = successor.to.clone().add(1, 'day');
+        if (!successor) {
+            this.orderEntry.ranges.push(new order_entry_1.OrderEntryRange(0));
         }
-        this.newRange.value = successor.value;
+        else if (successor.to && successor.to.isValid()) {
+            this.orderEntry.ranges.unshift(new order_entry_1.OrderEntryRange(successor.value, successor.to.clone().add(1, 'day')));
+        }
+        else {
+            this.orderEntry.ranges.unshift(new order_entry_1.OrderEntryRange(successor.value));
+        }
         this.addingRange = true;
     };
     OrderEntryDetailModalComponent.prototype.cancelRange = function () {
-        this.resetNewRange();
+        this.orderEntry.ranges.splice(0, 1);
         this.addingRange = false;
     };
     OrderEntryDetailModalComponent.prototype.saveRange = function () {
-        _.first(this.orderEntry.ranges).to = this.newRange.from.clone().subtract(1, 'day');
-        this.orderEntry.ranges.unshift(this.newRange);
-        this.newRange = new order_entry_1.OrderEntryRange(0);
+        if (this.orderEntry.ranges.length > 1) {
+            this.orderEntry.ranges[0].to = _.first(this.orderEntry.ranges).from.clone().subtract(1, 'day');
+        }
         this.addingRange = false;
     };
     OrderEntryDetailModalComponent.prototype.hidePopup = function () {
@@ -57,6 +64,9 @@ var OrderEntryDetailModalComponent = (function () {
         var successor = _.first(this.orderEntry.ranges);
         if (!range.from) {
             return false;
+        }
+        else if (!successor) {
+            return true;
         }
         else if ((!successor.to || !successor.to.isValid()) && range.from.isSameOrBefore(successor.from)) {
             return false;
@@ -68,11 +78,6 @@ var OrderEntryDetailModalComponent = (function () {
             return false;
         }
         return true;
-    };
-    OrderEntryDetailModalComponent.prototype.resetNewRange = function () {
-        this.newRange.to = null;
-        this.newRange.from = moment();
-        this.newRange.value = 0;
     };
     __decorate([
         core_1.ViewChild('lgModal'), 

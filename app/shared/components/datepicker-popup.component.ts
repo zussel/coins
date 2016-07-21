@@ -19,8 +19,8 @@ export class DatepickerPopupComponent implements OnInit {
     private value: Date;
     private dateString: string;
 
-    show() {
-        this.showPopup = true;
+    toggle() {
+        this.showPopup = !this.showPopup;
     }
 
     hide() {

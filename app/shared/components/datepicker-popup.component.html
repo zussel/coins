@@ -1,7 +1,7 @@
 <div class="input-group">
     <input type="text" class="form-control" placeholder="{{placeholder}}"
            [(ngModel)]="dateString" [ngModelOptions]="{standalone: true}">
-    <span class="input-group-addon" (click)="show()"><i class="glyphicon glyphicon-calendar"></i></span>
+    <span class="input-group-addon" (click)="toggle()"><i class="glyphicon glyphicon-calendar"></i></span>
 </div>
 <div style="display:inline-block;">
     <datepicker class="datepicker-popup" *ngIf="showPopup" [ngModelOptions]="{standalone: true}"

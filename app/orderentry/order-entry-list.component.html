@@ -8,10 +8,9 @@
         <th>Wert</th>
     </tr>
     </thead>
-    <tbody>
     <tr *ngFor="let orderEntry of orderEntries">
         <td>
-            <button type="button" class="btn btn-link" (click)="show(orderEntry, detail)">{{orderEntry.title}}</button>
+            <button type="button" class="btn btn-link no-padding" (click)="show(orderEntry, detail)">{{orderEntry.title}}</button>
         </td>
         <td>{{orderEntry.description}}</td>
         <td>{{orderEntry.created | moment:'DD-MM-YYYY'}}</td>
@@ -19,7 +18,6 @@
         <td [ngClass]="{'green': orderEntry.ranges[orderEntry.ranges.length-1].value >= 0, 'red': orderEntry.ranges[orderEntry.ranges.length-1].value < 0}"
             style="text-align: right">{{orderEntry.ranges[orderEntry.ranges.length-1].value | number:'1.2-2'}} €</td>
     </tr>
-    </tbody>
 </table>
 <button type="button" class="btn-round btn btn-danger pull-right" (click)="addOrderEntry(detail)"><i class="glyphicon glyphicon-plus"></i></button>
 <order-entry-detail-modal #detail="orderEntryDetail" [orderEntry]="current"></order-entry-detail-modal>
