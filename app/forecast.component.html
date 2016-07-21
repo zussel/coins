@@ -1,0 +1,9 @@
+<div class="well">Vorhersage</div>
+<base-chart *ngIf="barChartData" class="chart"
+            [datasets]="barChartData"
+            [labels]="barChartLabels"
+            [options]="barChartOptions"
+            [legend]="barChartLegend"
+            [chartType]="barChartType"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)"></base-chart>

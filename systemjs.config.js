@@ -7,6 +7,7 @@
     var map = {
         'app':                        'app', // 'dist',
         '@angular':                   'node_modules/@angular',
+        'ng2-charts':                 'node_modules/ng2-charts/components/charts',
         'angular2-in-memory-web-api': 'node_modules/angular2-in-memory-web-api',
         'rxjs':                       'node_modules/rxjs',
         'moment':                     'node_modules/moment',
@@ -16,6 +17,7 @@
     var packages = {
         'app':                        { main: 'main.js',  defaultExtension: 'js' },
         'rxjs':                       { defaultExtension: 'js' },
+        'ng2-charts':                 { main: 'charts.js' },
         'angular2-in-memory-web-api': { main: 'index.js', defaultExtension: 'js' },
         'moment':                     { main: 'moment.js'},
         'lodash':                     { main: 'lodash.js'}

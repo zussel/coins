@@ -9,6 +9,7 @@
                     <h4 *ngIf="orderEntry" class="modal-title">{{orderEntry.title}}</h4>
                 </div>
                 <div class="modal-body">
+                    <h4 class="underline text-primary">Allgemeine Daten</h4>
                     <div class="form-group">
                         <label class="col-sm-3 control-label" for="title">Titel</label>
                         <div class="col-sm-9">
@@ -38,10 +39,12 @@
                             <select class="form-control"
                                     [(ngModel)]="orderEntry.repeat"
                                     id="repeat" name="repeat">
-                                <option *ngFor="let r of repeats | enums" [value]="r.key">{{r.value}}</option>
+                                <option *ngFor="let r of repeats | enums" [value]="r.key">{{r.key | orderEntryRepeat}}</option>
                             </select>
                         </div>
                     </div>
+
+                    <h4 class="underline text-primary">Zahlungszeiträume</h4>
 
                     <table class="table table-condensed">
                         <thead>
@@ -68,13 +71,13 @@
                             </tr>
                         </tbody>
                     </table>
-                    <button *ngIf="!addingRange" type="button" class="btn btn-warning pull-right" (click)="addRange()"><i class="glyphicon glyphicon-plus"></i></button>
-                    <button *ngIf="addingRange" type="button" class="btn btn-danger pull-right" (click)="cancelRange()"><i class="glyphicon glyphicon-trash"></i></button>
-                    <button *ngIf="addingRange" [disabled]="!isValidRange(newRange)" type="button" class="btn btn-success pull-right" (click)="saveRange()"><i class="glyphicon glyphicon-ok"></i></button>
+                    <button *ngIf="!addingRange" type="button" class="btn-round btn btn-warning pull-right" (click)="addRange()"><i class="glyphicon glyphicon-plus"></i></button>
+                    <button *ngIf="addingRange" type="button" class="btn-round btn btn-danger pull-right" (click)="cancelRange()"><i class="glyphicon glyphicon-trash"></i></button>
+                    <button *ngIf="addingRange" [disabled]="!isValidRange(newRange)" type="button" class="btn-round btn btn-success pull-right" (click)="saveRange()"><i class="glyphicon glyphicon-ok"></i></button>
                     <div class="clearfix"></div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" (click)="lgModal.hide()">Schließen</button>
+                    <button type="button" class="btn btn-default" (click)="lgModal.hide()">Abbrechen</button>
                     <button type="submit" class="btn btn-primary" [disabled]="!orderEntryForm.form.valid || addingRange">Speichern</button>
                 </div>
             </div>

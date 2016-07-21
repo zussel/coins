@@ -2,7 +2,7 @@ import {OrderEntryService} from "./order.entry.service";
 import {OrderEntryEstimateService} from "./order.entry.estimate.service";
 import {OrderEntryRepeatPipe} from "./order.entry.repeat.pipe";
 import {MomentPipe} from "./moment.pipe";
-import {OnInit, Component, } from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {OrderEntry} from "./order.entry";
 import {OrderEntryDetailModalComponent} from "./order.entry.detail.modal.component";
 
@@ -11,8 +11,7 @@ import {OrderEntryDetailModalComponent} from "./order.entry.detail.modal.compone
     templateUrl: 'app/order.entries.component.html',
     styleUrls: ['app/order.entries.component.css'],
     providers: [
-        OrderEntryService,
-        OrderEntryEstimateService
+        OrderEntryService
     ],
     pipes: [
         OrderEntryRepeatPipe,
@@ -21,8 +20,9 @@ import {OrderEntryDetailModalComponent} from "./order.entry.detail.modal.compone
     directives: [OrderEntryDetailModalComponent]
 })
 export class OrderEntriesComponent implements OnInit {
-    constructor(private orderEntryService: OrderEntryService,
-                private orderEntryEstimateService: OrderEntryEstimateService) {}
+
+    constructor(private orderEntryService: OrderEntryService) {
+    }
 
     public current: OrderEntry;
 
@@ -38,9 +38,6 @@ export class OrderEntriesComponent implements OnInit {
     }
 
     ngOnInit() {
-        let self = this;
-        this.getOrderEntries().then(function () {
-            console.log(self.orderEntryEstimateService.estimateYear(2016, self.orderEntries));
-        });
+        this.getOrderEntries();
     }
 }
