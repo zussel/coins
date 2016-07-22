@@ -1,7 +1,7 @@
 import {Component, Input, Output, Self, OnInit} from "@angular/core";
 import {DATEPICKER_DIRECTIVES} from "ng2-bootstrap/ng2-bootstrap";
 import moment = require("moment/moment");
-import {EventEmitter} from "@angular/forms/src/facade/async";
+import {EventEmitter} from "@angular/core";
 
 @Component({
     selector: 'datepicker-popup',

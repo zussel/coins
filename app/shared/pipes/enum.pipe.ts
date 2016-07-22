@@ -10,7 +10,7 @@ export class EnumPipe implements PipeTransform {
             if (isNumber(e)) {
                 keys.push({key: e, value: enums[e]});
                 // Uncomment if you want log
-                // console.log("enum member: ", enums[e]);
+                // console.log('key: ', e, 'value: ', enums[e]);
             }
         });
         return keys;

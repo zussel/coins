@@ -1,6 +1,6 @@
 import {BS_VIEW_PROVIDERS, MODAL_DIRECTIVES, ModalDirective, DATEPICKER_DIRECTIVES} from "ng2-bootstrap/ng2-bootstrap";
 import {CORE_DIRECTIVES} from "@angular/common";
-import {Component, ViewChild, Input} from "@angular/core";
+import {Component, ViewChild, Input, Output, EventEmitter} from "@angular/core";
 import {OrderEntry, EntryRepeat, OrderEntryRange} from "./order-entry";
 import {EnumPipe} from "../shared/pipes/enum.pipe";
 import {MomentPipe} from "../shared/pipes/moment.pipe";
@@ -8,6 +8,7 @@ import {OrderEntryRepeatPipe} from "./order-entry-repeat.pipe";
 import {DatepickerPopupComponent} from "../shared/components/datepicker-popup.component";
 import * as _ from 'lodash';
 import moment = require("moment/moment");
+import {OrderEntryService} from "./order-entry.service";
 
 @Component({
     selector: 'order-entry-detail-modal',
@@ -24,23 +25,34 @@ import moment = require("moment/moment");
 })
 export class OrderEntryDetailModalComponent {
     @ViewChild('lgModal') public lgModal: ModalDirective;
-    @Input() public orderEntry: OrderEntry;
+    @Output() public close = new EventEmitter<OrderEntry>();
 
+    public orderEntry: OrderEntry;
     public repeats = EntryRepeat;
     public addingRange = false;
-    public showDatepicker = false;
+    public error: any;
 
-    public show():void {
+    constructor(private orderEntryService: OrderEntryService) {}
+
+    public open(orderEntry: OrderEntry):void {
+        this.orderEntry = orderEntry;
         if (_.isEmpty(this.orderEntry.ranges)) {
             this.orderEntry.ranges.push(new OrderEntryRange(0));
             this.addingRange = true;
         }
+        // console.log('open: ', this.orderEntry);
         this.lgModal.show();
     }
 
     public save() {
-        console.log('saved order entry: ', this.orderEntry);
-        this.lgModal.hide();
+        // console.log('save: ', this.orderEntry);
+        this.orderEntryService.save(this.orderEntry)
+            .then(orderEntry => {
+                this.addingRange = false;
+                this.lgModal.hide();
+                this.close.emit(this.orderEntry);
+            })
+            .catch(error => this.error = error); // TODO: Display error message
     }
 
     public addRange() {
@@ -68,12 +80,8 @@ export class OrderEntryDetailModalComponent {
         this.addingRange = false;
     }
 
-    public hidePopup() {
-        this.showDatepicker = false;
-    }
-
     public isValidRange(range: OrderEntryRange) {
-        let successor = _.first(this.orderEntry.ranges);
+        let successor = (this.orderEntry.ranges.length > 1 ? this.orderEntry.ranges[1] : null);
 
         if (!range.from) {
             return false;
@@ -87,5 +95,9 @@ export class OrderEntryDetailModalComponent {
             return false;
         }
         return true;
+    }
+
+    public toNumber() {
+        this.orderEntry.repeat = +this.orderEntry.repeat;
     }
 }

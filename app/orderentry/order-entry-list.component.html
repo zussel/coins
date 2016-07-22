@@ -10,7 +10,7 @@
     </thead>
     <tr *ngFor="let orderEntry of orderEntries">
         <td>
-            <button type="button" class="btn btn-link no-padding" (click)="show(orderEntry, detail)">{{orderEntry.title}}</button>
+            <button type="button" class="btn btn-link no-padding" (click)="detail.open(orderEntry)">{{orderEntry.title}}</button>
         </td>
         <td>{{orderEntry.description}}</td>
         <td>{{orderEntry.created | moment:'DD-MM-YYYY'}}</td>
@@ -20,4 +20,4 @@
     </tr>
 </table>
 <button type="button" class="btn-round btn btn-danger pull-right" (click)="addOrderEntry(detail)"><i class="glyphicon glyphicon-plus"></i></button>
-<order-entry-detail-modal #detail="orderEntryDetail" [orderEntry]="current"></order-entry-detail-modal>
+<order-entry-detail-modal #detail="orderEntryDetail" (close)="close($event)"></order-entry-detail-modal>

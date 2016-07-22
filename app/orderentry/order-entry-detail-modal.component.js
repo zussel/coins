@@ -17,22 +17,33 @@ var moment_pipe_1 = require("../shared/pipes/moment.pipe");
 var order_entry_repeat_pipe_1 = require("./order-entry-repeat.pipe");
 var datepicker_popup_component_1 = require("../shared/components/datepicker-popup.component");
 var _ = require('lodash');
+var order_entry_service_1 = require("./order-entry.service");
 var OrderEntryDetailModalComponent = (function () {
-    function OrderEntryDetailModalComponent() {
+    function OrderEntryDetailModalComponent(orderEntryService) {
+        this.orderEntryService = orderEntryService;
+        this.close = new core_1.EventEmitter();
         this.repeats = order_entry_1.EntryRepeat;
         this.addingRange = false;
-        this.showDatepicker = false;
     }
-    OrderEntryDetailModalComponent.prototype.show = function () {
+    OrderEntryDetailModalComponent.prototype.open = function (orderEntry) {
+        this.orderEntry = orderEntry;
         if (_.isEmpty(this.orderEntry.ranges)) {
             this.orderEntry.ranges.push(new order_entry_1.OrderEntryRange(0));
             this.addingRange = true;
         }
+        // console.log('open: ', this.orderEntry);
         this.lgModal.show();
     };
     OrderEntryDetailModalComponent.prototype.save = function () {
-        console.log('saved order entry: ', this.orderEntry);
-        this.lgModal.hide();
+        var _this = this;
+        // console.log('save: ', this.orderEntry);
+        this.orderEntryService.save(this.orderEntry)
+            .then(function (orderEntry) {
+            _this.addingRange = false;
+            _this.lgModal.hide();
+            _this.close.emit(_this.orderEntry);
+        })
+            .catch(function (error) { return _this.error = error; }); // TODO: Display error message
     };
     OrderEntryDetailModalComponent.prototype.addRange = function () {
         var successor = _.first(this.orderEntry.ranges);
@@ -57,11 +68,8 @@ var OrderEntryDetailModalComponent = (function () {
         }
         this.addingRange = false;
     };
-    OrderEntryDetailModalComponent.prototype.hidePopup = function () {
-        this.showDatepicker = false;
-    };
     OrderEntryDetailModalComponent.prototype.isValidRange = function (range) {
-        var successor = _.first(this.orderEntry.ranges);
+        var successor = (this.orderEntry.ranges.length > 1 ? this.orderEntry.ranges[1] : null);
         if (!range.from) {
             return false;
         }
@@ -79,14 +87,17 @@ var OrderEntryDetailModalComponent = (function () {
         }
         return true;
     };
+    OrderEntryDetailModalComponent.prototype.toNumber = function () {
+        this.orderEntry.repeat = +this.orderEntry.repeat;
+    };
     __decorate([
         core_1.ViewChild('lgModal'), 
         __metadata('design:type', ng2_bootstrap_1.ModalDirective)
     ], OrderEntryDetailModalComponent.prototype, "lgModal", void 0);
     __decorate([
-        core_1.Input(), 
-        __metadata('design:type', order_entry_1.OrderEntry)
-    ], OrderEntryDetailModalComponent.prototype, "orderEntry", void 0);
+        core_1.Output(), 
+        __metadata('design:type', Object)
+    ], OrderEntryDetailModalComponent.prototype, "close", void 0);
     OrderEntryDetailModalComponent = __decorate([
         core_1.Component({
             selector: 'order-entry-detail-modal',
@@ -101,7 +112,7 @@ var OrderEntryDetailModalComponent = (function () {
             exportAs: 'orderEntryDetail',
             pipes: [enum_pipe_1.EnumPipe, moment_pipe_1.MomentPipe, order_entry_repeat_pipe_1.OrderEntryRepeatPipe]
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [order_entry_service_1.OrderEntryService])
     ], OrderEntryDetailModalComponent);
     return OrderEntryDetailModalComponent;
 }());

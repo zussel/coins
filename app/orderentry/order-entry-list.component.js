@@ -17,18 +17,21 @@ var order_entry_detail_modal_component_1 = require("./order-entry-detail-modal.c
 var OrderEntriesComponent = (function () {
     function OrderEntriesComponent(orderEntryService) {
         this.orderEntryService = orderEntryService;
+        this.addingOrderEntry = false;
     }
-    OrderEntriesComponent.prototype.show = function (orderEntry, detailView) {
-        this.current = orderEntry;
-        detailView.show();
+    OrderEntriesComponent.prototype.close = function (orderEntry) {
+        this.addingOrderEntry = false;
+        if (orderEntry) {
+            this.getOrderEntries();
+        }
     };
     OrderEntriesComponent.prototype.getOrderEntries = function () {
         var _this = this;
         return this.orderEntryService.getOrderEntries().then(function (orderEntries) { return _this.orderEntries = orderEntries; });
     };
     OrderEntriesComponent.prototype.addOrderEntry = function (detailView) {
-        this.current = new order_entry_1.OrderEntry();
-        detailView.show();
+        this.addingOrderEntry = true;
+        detailView.open(new order_entry_1.OrderEntry());
     };
     OrderEntriesComponent.prototype.ngOnInit = function () {
         this.getOrderEntries();

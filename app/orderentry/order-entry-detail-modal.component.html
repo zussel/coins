@@ -38,6 +38,7 @@
                         <div class="col-sm-9">
                             <select class="form-control" required
                                     [(ngModel)]="orderEntry.repeat"
+                                    (ngModelChange)="toNumber()"
                                     id="repeat" name="repeat"
                                     #repeat="ngModel"
                             >
@@ -62,19 +63,16 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <!--<tr *ngIf="addingRange">-->
-                                <!--<td>-->
-                                    <!--<datepicker-popup [(date)]="newRange.from" [placeholder]="Von"></datepicker-popup>-->
-                                <!--</td>-->
-                                <!--<td>-->
-                                    <!--<datepicker-popup [(date)]="newRange.to" [placeholder]="Bis"></datepicker-popup>-->
-                                <!--</td>-->
-                                <!--<td><input type="number" class="form-control" [(ngModel)]="newRange.value" [ngModelOptions]="{standalone: true}"></td>-->
-                            <!--</tr>-->
-                            <tr *ngFor="let range of orderEntry.ranges">
-                                <td *ngIf="first && addingRange">a</td>
-                                <td *ngIf="first && addingRange">b</td>
-                                <td *ngIf="first && addingRange">c</td>
+                            <tr *ngFor="let range of orderEntry.ranges; let first=first">
+                                <td *ngIf="first && addingRange">
+                                    <datepicker-popup [(date)]="range.from" [placeholder]="Von"></datepicker-popup>
+                                </td>
+                                <td *ngIf="first && addingRange">
+                                    <datepicker-popup [(date)]="range.to" [placeholder]="Bis"></datepicker-popup>
+                                </td>
+                                <td *ngIf="first && addingRange">
+                                    <input type="number" class="form-control" [(ngModel)]="range.value" [ngModelOptions]="{standalone: true}">
+                                </td>
                                 <td *ngIf="!first || !addingRange">{{range.from | moment:'DD.MM.YYYY'}}</td>
                                 <td *ngIf="!first || !addingRange">{{range.to | moment:'DD.MM.YYYY'}}</td>
                                 <td *ngIf="!first || !addingRange" style="text-align: right" [ngClass]="{'green': range.value >= 0, 'red': range.value < 0}">{{range.value | number:'1.2-2'}}</td>
@@ -83,7 +81,7 @@
                         </table>
                         <button *ngIf="!addingRange" type="button" class="btn-round btn btn-danger pull-right" (click)="addRange()"><i class="glyphicon glyphicon-plus"></i></button>
                         <button *ngIf="addingRange" type="button" class="btn-round btn btn-info pull-right" (click)="cancelRange()"><i class="glyphicon glyphicon-trash"></i></button>
-                        <!--<button *ngIf="addingRange" [disabled]="!isValidRange(newRange)" type="button" class="btn-round btn btn-success pull-right" (click)="saveRange()"><i class="glyphicon glyphicon-ok"></i></button>-->
+                        <button *ngIf="addingRange" [disabled]="!isValidRange(orderEntry.ranges[0])" type="button" class="btn-round btn btn-success pull-right" (click)="saveRange()"><i class="glyphicon glyphicon-ok"></i></button>
                         <div class="clearfix"></div>
                     </div>
                     <div *ngIf="orderEntry && orderEntry.repeat && orderEntry.repeat == repeats.Once">

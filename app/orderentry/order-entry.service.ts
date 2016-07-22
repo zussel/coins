@@ -20,6 +20,56 @@ export class OrderEntryService {
             .catch(this.handleError);
     }
 
+    getOrderEntry(id: number) {
+        return this.getOrderEntries()
+            .then(orderEntries => orderEntries.find(orderEntry=> orderEntry.id === id));
+    }
+
+    save(orderEntry: OrderEntry): Promise<OrderEntry>  {
+        if (orderEntry.id) {
+            return this.put(orderEntry);
+        }
+        return this.post(orderEntry);
+    }
+
+    // Add new Hero
+    private post(orderEntry: OrderEntry): Promise<OrderEntry> {
+        let headers = new Headers({
+            'Content-Type': 'application/json'});
+
+        return this.http
+            .post(this.orderEntriesUrl, JSON.stringify(orderEntry), {headers: headers})
+            .toPromise()
+            .then(res => res.json().data)
+            .catch(this.handleError);
+    }
+
+    // Update existing Hero
+    private put(orderEntry: OrderEntry) {
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+
+        let url = `${this.orderEntriesUrl}/${orderEntry.id}`;
+
+        return this.http
+            .put(url, JSON.stringify(orderEntry), {headers: headers})
+            .toPromise()
+            .then(() => orderEntry)
+            .catch(this.handleError);
+    }
+
+    delete(orderEntry: OrderEntry) {
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+
+        let url = `${this.orderEntriesUrl}/${orderEntry.id}`;
+
+        return this.http
+            .delete(url, {headers: headers})
+            .toPromise()
+            .catch(this.handleError);
+    }
+
     getOrderEntryRepeats() {
         return Object.keys(EntryRepeat).map(k => EntryRepeat[k]).filter(v => typeof v === "string");
     }

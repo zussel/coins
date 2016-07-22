@@ -24,13 +24,14 @@ export class OrderEntriesComponent implements OnInit {
     constructor(private orderEntryService: OrderEntryService) {
     }
 
-    public current: OrderEntry;
-
+    public addingOrderEntry = false;
     public orderEntries: OrderEntry[];
 
-    show(orderEntry: OrderEntry, detailView: OrderEntryDetailModalComponent) {
-        this.current = orderEntry;
-        detailView.show();
+    close(orderEntry: OrderEntry) {
+        this.addingOrderEntry = false;
+        if (orderEntry) {
+            this.getOrderEntries();
+        }
     }
 
     getOrderEntries() {
@@ -38,8 +39,8 @@ export class OrderEntriesComponent implements OnInit {
     }
 
     addOrderEntry(detailView: OrderEntryDetailModalComponent) {
-        this.current = new OrderEntry();
-        detailView.show();
+        this.addingOrderEntry = true;
+        detailView.open(new OrderEntry());
     }
 
     ngOnInit() {

@@ -24,6 +24,46 @@ var OrderEntryService = (function () {
             .then(this.createOrderEntries)
             .catch(this.handleError);
     };
+    OrderEntryService.prototype.getOrderEntry = function (id) {
+        return this.getOrderEntries()
+            .then(function (orderEntries) { return orderEntries.find(function (orderEntry) { return orderEntry.id === id; }); });
+    };
+    OrderEntryService.prototype.save = function (orderEntry) {
+        if (orderEntry.id) {
+            return this.put(orderEntry);
+        }
+        return this.post(orderEntry);
+    };
+    // Add new Hero
+    OrderEntryService.prototype.post = function (orderEntry) {
+        var headers = new http_1.Headers({
+            'Content-Type': 'application/json' });
+        return this.http
+            .post(this.orderEntriesUrl, JSON.stringify(orderEntry), { headers: headers })
+            .toPromise()
+            .then(function (res) { return res.json().data; })
+            .catch(this.handleError);
+    };
+    // Update existing Hero
+    OrderEntryService.prototype.put = function (orderEntry) {
+        var headers = new http_1.Headers();
+        headers.append('Content-Type', 'application/json');
+        var url = this.orderEntriesUrl + "/" + orderEntry.id;
+        return this.http
+            .put(url, JSON.stringify(orderEntry), { headers: headers })
+            .toPromise()
+            .then(function () { return orderEntry; })
+            .catch(this.handleError);
+    };
+    OrderEntryService.prototype.delete = function (orderEntry) {
+        var headers = new http_1.Headers();
+        headers.append('Content-Type', 'application/json');
+        var url = this.orderEntriesUrl + "/" + orderEntry.id;
+        return this.http
+            .delete(url, { headers: headers })
+            .toPromise()
+            .catch(this.handleError);
+    };
     OrderEntryService.prototype.getOrderEntryRepeats = function () {
         return Object.keys(order_entry_1.EntryRepeat).map(function (k) { return order_entry_1.EntryRepeat[k]; }).filter(function (v) { return typeof v === "string"; });
     };

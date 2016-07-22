@@ -11,10 +11,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var ng2_bootstrap_1 = require("ng2-bootstrap/ng2-bootstrap");
 var moment = require("moment/moment");
-var async_1 = require("@angular/forms/src/facade/async");
+var core_2 = require("@angular/core");
 var DatepickerPopupComponent = (function () {
     function DatepickerPopupComponent() {
-        this.dateChange = new async_1.EventEmitter();
+        this.dateChange = new core_2.EventEmitter();
         this.showPopup = false;
     }
     DatepickerPopupComponent.prototype.toggle = function () {
@@ -42,7 +42,7 @@ var DatepickerPopupComponent = (function () {
     ], DatepickerPopupComponent.prototype, "date", void 0);
     __decorate([
         core_1.Output(), 
-        __metadata('design:type', async_1.EventEmitter)
+        __metadata('design:type', core_2.EventEmitter)
     ], DatepickerPopupComponent.prototype, "dateChange", void 0);
     DatepickerPopupComponent = __decorate([
         core_1.Component({
