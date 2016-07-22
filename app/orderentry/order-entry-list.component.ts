@@ -5,6 +5,8 @@ import {MomentPipe} from "../shared/pipes/moment.pipe";
 import {Component, OnInit} from "@angular/core";
 import {OrderEntry} from "./order-entry";
 import {OrderEntryDetailModalComponent} from "./order-entry-detail-modal.component";
+import {EarningsPipe} from "../shared/pipes/earnings.pipe";
+import {ExpensesPipe} from "../shared/pipes/expenses.pipe";
 
 @Component({
     selector: 'coins-order-entries',
@@ -15,7 +17,9 @@ import {OrderEntryDetailModalComponent} from "./order-entry-detail-modal.compone
     ],
     pipes: [
         OrderEntryRepeatPipe,
-        MomentPipe
+        MomentPipe,
+        EarningsPipe,
+        ExpensesPipe
     ],
     directives: [OrderEntryDetailModalComponent]
 })

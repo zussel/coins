@@ -15,7 +15,7 @@
                         <div class="col-sm-9">
                             <input type="text" class="form-control" required
                                    [(ngModel)]="orderEntry.title"
-                                   id="title" name="title"  #title="ngModel" >
+                                   id="title" name="title"  #title="ngModel" autofocus>
                         </div>
                         <div class="col-sm-offset-3 col-sm-9">
                             <div [hidden]="title.valid || title.pristine" class="alert alert-danger">
@@ -52,7 +52,7 @@
                         </div>
                     </div>
 
-                    <div *ngIf="orderEntry && orderEntry.repeat && orderEntry.repeat != repeats.Once">
+                    <div *ngIf="orderEntry && orderEntry.repeat && orderEntry.repeat !== repeats.Once">
                         <h4 class="underline text-primary">Zahlungszeiträume</h4>
                         <table class="table table-condensed">
                             <thead>
@@ -84,7 +84,7 @@
                         <button *ngIf="addingRange" [disabled]="!isValidRange(orderEntry.ranges[0])" type="button" class="btn-round btn btn-success pull-right" (click)="saveRange()"><i class="glyphicon glyphicon-ok"></i></button>
                         <div class="clearfix"></div>
                     </div>
-                    <div *ngIf="orderEntry && orderEntry.repeat && orderEntry.repeat == repeats.Once">
+                    <div *ngIf="orderEntry.repeat === repeats.Once">
                         <h4 class="underline text-primary">Zahlungszeitpunkt</h4>
                         <div class="form-group">
                             <label class="col-sm-3 control-label" for="date">Datum</label>
@@ -102,7 +102,7 @@
                             <div class="col-sm-9">
                                 <input type="number" class="form-control"
                                        [(ngModel)]="orderEntry.ranges[0].value"
-                                       name="value" id="value">
+                                       name="value" id="value" required>
                             </div>
                         </div>
 
@@ -110,8 +110,8 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" (click)="lgModal.hide()">Abbrechen</button>
-                    <button type="submit" class="btn btn-primary" [disabled]="!orderEntryForm.form.valid || addingRange">Speichern</button>
+                    <button type="button" class="btn btn-default" (click)="cancel()">Abbrechen</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="!orderEntryForm.form.valid || (addingRange && orderEntry.repeat!=repeats.Once)">Speichern</button>
                 </div>
             </div>
         </form>

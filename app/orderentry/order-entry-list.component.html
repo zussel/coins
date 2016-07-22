@@ -1,23 +1,52 @@
-<table class="table table-bordered table-condensed">
-    <thead>
-    <tr>
-        <th>Titel</th>
-        <th>Beschreibung</th>
-        <th>Erstellt</th>
-        <th>Wiederholung</th>
-        <th>Wert</th>
-    </tr>
-    </thead>
-    <tr *ngFor="let orderEntry of orderEntries">
-        <td>
-            <button type="button" class="btn btn-link no-padding" (click)="detail.open(orderEntry)">{{orderEntry.title}}</button>
-        </td>
-        <td>{{orderEntry.description}}</td>
-        <td>{{orderEntry.created | moment:'DD-MM-YYYY'}}</td>
-        <td>{{orderEntry.repeat | orderEntryRepeat}}</td>
-        <td [ngClass]="{'green': orderEntry.ranges[orderEntry.ranges.length-1].value >= 0, 'red': orderEntry.ranges[orderEntry.ranges.length-1].value < 0}"
-            style="text-align: right">{{orderEntry.ranges[orderEntry.ranges.length-1].value | number:'1.2-2'}} €</td>
-    </tr>
-</table>
-<button type="button" class="btn-round btn btn-danger pull-right" (click)="addOrderEntry(detail)"><i class="glyphicon glyphicon-plus"></i></button>
+<div class="col-md-6 col-xs-12" *ngIf="orderEntries">
+    <h3 class="underline text-info">
+        Einnahmen
+        <button type="button" class="btn-round btn btn-xs btn-danger pull-right" (click)="addOrderEntry(detail)"><i class="glyphicon glyphicon-plus"></i></button>
+    </h3>
+    <table class="table table-bordered table-condensed">
+        <thead>
+        <tr>
+            <th>Titel</th>
+            <th>Wiederholung</th>
+            <th>Wert</th>
+            <th>Gültig ab</th>
+        </tr>
+        </thead>
+        <tr *ngFor="let orderEntry of orderEntries | earnings">
+            <td>
+                <button type="button" class="btn btn-link no-padding" (click)="detail.open(orderEntry)">{{orderEntry.title}}</button>
+            </td>
+            <td>{{orderEntry.repeat | orderEntryRepeat}}</td>
+            <td [ngClass]="{'green': orderEntry.ranges[orderEntry.ranges.length-1].value >= 0, 'red': orderEntry.ranges[orderEntry.ranges.length-1].value < 0}"
+                style="text-align: right">{{orderEntry.ranges[orderEntry.ranges.length-1].value | number:'1.2-2'}} €</td>
+            <td>{{orderEntry.ranges[orderEntry.ranges.length-1].from | moment:'DD-MM-YYYY'}}</td>
+        </tr>
+    </table>
+
+</div>
+<div class="col-md-6 col-xs-12" *ngIf="orderEntries">
+    <h3 class="underline text-info">
+        Ausgaben
+        <button type="button" class="btn-round btn btn-xs btn-danger pull-right" (click)="addOrderEntry(detail)"><i class="glyphicon glyphicon-plus"></i></button>
+    </h3>
+    <table class="table table-bordered table-condensed">
+        <thead>
+        <tr>
+            <th>Titel</th>
+            <th>Wiederholung</th>
+            <th>Wert</th>
+            <th>Gültig ab</th>
+        </tr>
+        </thead>
+        <tr *ngFor="let orderEntry of orderEntries | expenses">
+            <td>
+                <button type="button" class="btn btn-link no-padding" (click)="detail.open(orderEntry)">{{orderEntry.title}}</button>
+            </td>
+            <td>{{orderEntry.repeat | orderEntryRepeat}}</td>
+            <td [ngClass]="{'green': orderEntry.ranges[orderEntry.ranges.length-1].value >= 0, 'red': orderEntry.ranges[orderEntry.ranges.length-1].value < 0}"
+                style="text-align: right">{{orderEntry.ranges[orderEntry.ranges.length-1].value | number:'1.2-2'}} €</td>
+            <td>{{orderEntry.ranges[orderEntry.ranges.length-1].from | moment:'DD-MM-YYYY'}}</td>
+        </tr>
+    </table>
+</div>
 <order-entry-detail-modal #detail="orderEntryDetail" (close)="close($event)"></order-entry-detail-modal>

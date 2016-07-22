@@ -14,6 +14,8 @@ var moment_pipe_1 = require("../shared/pipes/moment.pipe");
 var core_1 = require("@angular/core");
 var order_entry_1 = require("./order-entry");
 var order_entry_detail_modal_component_1 = require("./order-entry-detail-modal.component");
+var earnings_pipe_1 = require("../shared/pipes/earnings.pipe");
+var expenses_pipe_1 = require("../shared/pipes/expenses.pipe");
 var OrderEntriesComponent = (function () {
     function OrderEntriesComponent(orderEntryService) {
         this.orderEntryService = orderEntryService;
@@ -46,7 +48,9 @@ var OrderEntriesComponent = (function () {
             ],
             pipes: [
                 order_entry_repeat_pipe_1.OrderEntryRepeatPipe,
-                moment_pipe_1.MomentPipe
+                moment_pipe_1.MomentPipe,
+                earnings_pipe_1.EarningsPipe,
+                expenses_pipe_1.ExpensesPipe
             ],
             directives: [order_entry_detail_modal_component_1.OrderEntryDetailModalComponent]
         }), 

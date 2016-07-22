@@ -45,6 +45,10 @@ var OrderEntryDetailModalComponent = (function () {
         })
             .catch(function (error) { return _this.error = error; }); // TODO: Display error message
     };
+    OrderEntryDetailModalComponent.prototype.cancel = function () {
+        this.addingRange = false;
+        this.lgModal.hide();
+    };
     OrderEntryDetailModalComponent.prototype.addRange = function () {
         var successor = _.first(this.orderEntry.ranges);
         if (!successor) {
@@ -64,7 +68,7 @@ var OrderEntryDetailModalComponent = (function () {
     };
     OrderEntryDetailModalComponent.prototype.saveRange = function () {
         if (this.orderEntry.ranges.length > 1) {
-            this.orderEntry.ranges[0].to = _.first(this.orderEntry.ranges).from.clone().subtract(1, 'day');
+            this.orderEntry.ranges[1].to = _.first(this.orderEntry.ranges).from.clone().subtract(1, 'day');
         }
         this.addingRange = false;
     };

@@ -55,6 +55,11 @@ export class OrderEntryDetailModalComponent {
             .catch(error => this.error = error); // TODO: Display error message
     }
 
+    public cancel() {
+        this.addingRange = false;
+        this.lgModal.hide();
+    }
+
     public addRange() {
         let successor = _.first(this.orderEntry.ranges);
 
@@ -75,7 +80,7 @@ export class OrderEntryDetailModalComponent {
 
     public saveRange() {
         if (this.orderEntry.ranges.length > 1) {
-            this.orderEntry.ranges[0].to = _.first(this.orderEntry.ranges).from.clone().subtract(1, 'day');
+            this.orderEntry.ranges[1].to = _.first(this.orderEntry.ranges).from.clone().subtract(1, 'day');
         }
         this.addingRange = false;
     }

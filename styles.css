@@ -42,7 +42,7 @@ td.green {
     border-left: 5px solid #a94442; /* red */
 }
 
-h4.underline {
+h1.underline, h2.underline, h3.underline, h4.underline {
     margin-top: 20px;
     margin-bottom: 20px;
     padding-bottom: 4px;
