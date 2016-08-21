@@ -19,8 +19,15 @@ var ForecastComponent = (function () {
         this.orderEntryService = orderEntryService;
         this.orderEntryEstimateService = orderEntryEstimateService;
         this.barChartOptions = {
-            scaleShowVerticalLines: false,
-            responsive: true
+            scaleShowVerticalLines: true,
+            responsive: true,
+            scales: {
+                yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+            }
         };
         this.barChartLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
         this.barChartType = 'bar';

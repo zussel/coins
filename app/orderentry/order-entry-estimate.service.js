@@ -25,7 +25,7 @@ var OrderEntryEstimateService = (function () {
         var self = this;
         var estimations = [];
         _.each(OrderEntryEstimateService.MONTHS, function (month) {
-            var estimation = { earnings: 0, expenses: 0 };
+            var estimation = { earnings: 0, expenses: 0, };
             _.each(orderEntries, function (orderEntry) {
                 // find valid range
                 var value = self.calculateEstimateForMonth(year, month, orderEntry);

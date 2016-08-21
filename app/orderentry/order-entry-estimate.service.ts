@@ -13,7 +13,7 @@ export class OrderEntryEstimateService {
         let self = this;
         let estimations: any[] = [];
         _.each(OrderEntryEstimateService.MONTHS, function (month:number) {
-            let estimation = { earnings: 0, expenses: 0};
+            let estimation = { earnings: 0, expenses: 0, };
             _.each(orderEntries, function (orderEntry:OrderEntry) {
                 // find valid range
                 let value = self.calculateEstimateForMonth(year, month, orderEntry);

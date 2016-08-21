@@ -15,8 +15,15 @@ import * as _ from 'lodash';
 })
 export class ForecastComponent implements OnInit {
     public barChartOptions:any = {
-        scaleShowVerticalLines: false,
-        responsive: true
+        scaleShowVerticalLines: true,
+        responsive: true,
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
     };
     public barChartLabels:string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
     public barChartType:string = 'bar';
